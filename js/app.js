@@ -12,7 +12,7 @@ const APP = {
   token: null,
   init() {
     //init the sw on the APP
-    this.swInit();
+    APP.swInit();
 
     console.log('App initialized');
     //run the pageLoaded function
@@ -187,7 +187,31 @@ const APP = {
   } else {
     console.log("no e-mail address found");
   }
-},
+  },
+  APIRegister(){
+      const firstName = document.getElementById("first_name").value;
+      const lastName = document.getElementById("last_name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+  
+      const registerInfo = { firstName, lastName, email, password };
+      //console.log(registerInfo);
+      const registerAPI = APP.baseURL + "/auth/users";
+      const option = {
+        method: "POST",
+        headers: { 
+          "x-api-key": "gil00013",
+          "Content-Type": "application/json"
+         },
+        body: JSON.stringify(registerInfo),
+      };
+      fetch(registerAPI, option)
+        .then((res) => res.json())
+        .then((resultData) => console.log(resultData))
+        .catch((error) => console.log(error));
+      console.log(registerAPI);
+      // after successfully register a user, should then log in the user.
+  },
   addListeners() {
     console.log(APP.page, 'adding listeners');
     //HOME PAGE
@@ -195,7 +219,7 @@ const APP = {
       let btnReg = document.getElementById('btnRegister');
       btnReg.addEventListener('click', (ev) => {
         //logging in and validating the user 
-        APP.APILogin()
+        APP.APIRegister()
         //go to people page after login success
         console.log('registered... go to people page');
         //location.href = '/proj4-pwa-starter/people.html';

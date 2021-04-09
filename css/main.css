@@ -48,3 +48,6 @@ body {
 .container form {
   margin-top: 4rem;
 }
+#home_instr {
+font-weight: bold;
+}
