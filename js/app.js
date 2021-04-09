@@ -11,11 +11,46 @@ const APP = {
   PNAME: null,
   token: null,
   init() {
-    console.log('init');
+    //init the sw on the APP
+    this.swInit();
+
+    console.log('App initialized');
     //run the pageLoaded function
     APP.pageLoaded();
     //add UI listeners
     APP.addListeners();
+  },
+  swInit(){
+      //the function to handle the sw registration
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('/sw.js', {
+            updateViaCache: 'none',
+            scope: '/',
+          })
+          .then((reg) => {
+            APP.sw = reg.installing || reg.waiting || reg.active
+            console.log('service worker registered')
+          })
+        if (navigator.serviceWorker.controller) {
+          console.log('we have a service worker installed')
+        }
+        navigator.serviceWorker.oncontrollerchange = (ev) => {
+          console.log('New service worker activated')
+        }
+        //listening for service worker messages event
+        navigator.serviceWorker.addEventListener('message', (ev) => APP.onMessage)
+        //remove/unregister service workers that are not active
+        navigator.serviceWorker.getRegistrations().then((regs) => {
+          for (let reg of regs) {
+            if (!reg.active) {
+              reg.unregister().then((isUnreg) => console.log(isUnreg))
+            }
+          }
+        })
+      } else {
+        console.log('Service workers are not supported.')
+      }
   },
   pageLoaded() {
     //page has just loaded and we need to check the queryString
