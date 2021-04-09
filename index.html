@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GIFTR APP</title>
+    <!-- pwa manifest and android support meta and link tags-->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#000" />
+
+    <!-- ios support link and meta tags-->
+    <link rel="apple-touch-icon" href="#" />
+    <meta name="apple-mobile-web-app-status-bar" content="#" />
+
+    <!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- styles materialize and main-->
+    <link rel="stylesheet" href="./css/materialize.min.css" />
+    <link rel="stylesheet" href="./css/main.css" />
+
+    <!-- scripts materialize and main app -->
+    <script src="./js/materialize.min.js"></script>
+    <script src="./js/app.js" defer></script>
+  </head>
+  <body id="home">
+    <!-- nav bar -->
+    <nav>
+      <div class="nav-wrapper light-green darken-4">
+        <a href="#" class="brand-logo left"> Giftr</a>
+        <ul id="nav-mobile" class="right"></ul>
+      </div>
+    </nav>
+
+    <!-- login and register -->
+    <main class="container">
+      <div class="row">
+        <form class="col s12">
+          <!-- TODO: ADD THE FIRST AND LAST NAME for registration -->
+          <div class="row">
+            <div class="input-field col s12 black-text">
+              <input id="email" type="email" class="validate black-text" />
+              <label for="email" class="black-text">Email</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input
+                id="password"
+                type="password"
+                class="validate black-text"
+              />
+              <label for="password" class="black-text">Password</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s6">
+              <a
+                class="waves-effect waves-light btn light-green darken-2"
+                id="btnRegister"
+                ><i class="material-icons left">person_add</i>Register</a
+              >
+            </div>
+            <div class="col s6">
+              <a
+                class="waves-effect waves-light btn light-green darken-2"
+                id="btnLogin"
+                ><i class="material-icons left">login</i>Login</a
+              >
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <a href="#"><i class="material-icons">hail</i> Forgot Password</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

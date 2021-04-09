@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GIFTR APP</title>
+    <!-- pwa manifest and android support meta and link tags-->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#" />
+
+    <!-- ios support link and meta tags-->
+    <link rel="apple-touch-icon" href="#" />
+    <meta name="apple-mobile-web-app-status-bar" content="#" />
+
+    <!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- styles materialize and main-->
+    <link rel="stylesheet" href="./css/materialize.min.css" />
+    <link rel="stylesheet" href="./css/main.css" />
+
+    <!-- scripts materialize and main app -->
+    <script src="./js/materialize.min.js"></script>
+    <script src="./js/app.js"></script>
+  </head>
+  <body id="gifts">
+    <!-- nav bar -->
+    <nav>
+      <div class="nav-wrapper light-green darken-4">
+        <a href="#" data-target="slide-out" class="brand-logo left sidenav-trigger show-on-large">Giftr</a>
+        <ul id="nav-mobile" class="right">
+          <li>
+            <a href="#modalAddGift" title="add a gift" id="btnAddGift" class="modal-trigger"
+              ><i class="material-icons right">playlist_add</i> Add Gift</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="container">
+      <h5 class="light-green-text text-darken-2 person-name">
+        Ideas for <a href="/people.html">Dean Winchester</a>
+      </h5>
+      <section class="row gifts">
+        <div class="col s12 m6">
+          <!-- gift cards go here -->
+          <div class="card gift" data-id="">
+            <div class="card-content light-green-text text-darken-4">
+              <h5 class="card-title idea">
+                <i class="material-icons">lightbulb</i> 10Kg Bag of Salt
+              </h5>
+              <h6 class="price"><i class="material-icons">paid</i> 35.00</h6>
+              
+              <h6 class="store">
+                <i class="material-icons">room</i>Target</h6>
+              </h6>
+              <h6 class="link">
+                <i class="material-icons">link</i>
+                <a href="http://www.example.com/" class="" target="_blank"
+                  >http://www.example.com/</a
+                >
+              </h6>
+            </div>
+            <div class="fab-anchor">
+              <a class="btn-floating halfway-fab red del-gift"
+                ><i class="material-icons del-gift">delete</i></a
+              >
+            </div>
+          </div>
+
+          <div class="card gift" data-id="">
+            <div class="card-content light-green-text text-darken-4">
+              <h5 class="card-title idea">
+                <i class="material-icons">lightbulb</i> Jug of Holy Water
+              </h5>
+              <h6 class="price"><i class="material-icons">paid</i> 85.00</h6>
+              <h6 class="store">
+                <i class="material-icons">room</i>Walmart</h6>
+              </h6>
+              <h6 class="link">
+                <i class="material-icons">link</i>
+                <a href="http://www.example.com/" class="" target="_blank"
+                  >http://www.example.com/</a
+                >
+              </h6>
+            </div>
+            <div class="fab-anchor">
+              <a class="btn-floating halfway-fab red"
+                ><i class="material-icons">delete</i></a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <div class="modal modal-fixed-footer" id="modalAddGift">
+      <div class="modal-content">
+        <h4>New Gift idea</h4>
+        <p>Why not add another idea?</p>
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12 black-text">
+              <input id="name" type="text" class="validate black-text" />
+              <label for="name" class="black-text">Idea</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 black-text">
+              <input id="price" type="text" inputmode="numeric" class="validate black-text" />
+              <label for="price" class="black-text">Price</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 black-text">
+              <input id="storeName" type="text" class="validate black-text" />
+              <label for="storeName" class="black-text">Store Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 black-text">
+              <input id="storeProductURL" type="url" class="validate black-text" />
+              <label for="storeProductURL" class="black-text">Website</label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer light-green darken-4">
+        <a
+          href="#!"
+          id="btnSaveGift"
+          class="modal-close waves-effect waves-green btn-flat white-text"
+          >Save Gift Idea</a
+        >
+      </div>
+    </div>
+    <!-- slide out menu for logging out -->
+    
+    <ul id="slide-out" class="sidenav">
+      <!-- TODO: add a button for back to people page -->
+      <li>
+        <a href="/proj4-pwa-starter/?out" class="waves-effect"><i class="material-icons">logout</i>Logout</a>
+      </li>
+      <li><a class="sidenav-close" href="#!"><i class="material-icons">cancel</i>Close Sidenav</a></li>
+    </ul>
+  </body>
+</html>
