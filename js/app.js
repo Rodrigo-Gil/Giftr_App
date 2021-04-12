@@ -2,17 +2,17 @@ const APP = {
   //api for testing purposes
   baseURL: 'https://giftr.mad9124.rocks',
   //TODO: update the key for session storage
-  OWNERKEY: 'giftr-<{KEY}>-owner',
+  OWNERKEY: 'giftr-<${}>-owner',
   owner: null,
   user: null,
   GIFTS: [],
-  PEOPLE: [],
+  PEOPLE: null,
   PID: null,
   PNAME: null,
   token: null,
   init() {
     //init the sw on the APP
-    APP.swInit();
+    //APP.swInit();
 
     console.log('App initialized');
     //run the pageLoaded function
@@ -90,16 +90,19 @@ const APP = {
   },
   getOwner() {
     let id = sessionStorage.getItem(APP.OWNERKEY);
+
     if (id) {
       APP.owner = id;
       return APP;
     } else {
       if (APP.token) {
+        console.log('token is available:', APP.token)
         //certifying the user is actually logged in,
         //if yes, validating the identity again
         APP.APIToken();
         APP.getOwner();
       } else {
+        console.log('token not available, logging out the user')
         //if no token is attached to the session, logging the user out
         location.href = '/index.html?out';
       }
@@ -107,10 +110,12 @@ const APP = {
   },
   APIToken() {
     //API token validation function
+    let token = document.cookie;
+
     let opts = {
       method: 'GET',
       headers: new Headers ({
-        "Authorization": 'Bearer ' + APP.token,
+        "Authorization": 'Bearer ' + token,
         'x-api-key': 'gil00013'
       }),
     }
@@ -131,8 +136,9 @@ const APP = {
       //handling the received logged in user data
       //saving the user info on session Storage
       sessionStorage.setItem(APP.OWNERKEY, data._id);
-      //saving the id on a global variable
       APP.owner = data._id;
+      //navigating to the people's page with the logged-in data
+      location.href = `/people.html?owner=${APP.owner}`;
     })
     .catch(err => {
       console.log(err)
@@ -167,6 +173,7 @@ const APP = {
         .then(
           (resp) => {
             if (resp.ok) return resp.json();
+            //saving the token for future uses
             throw new Error(resp.statusText);
           },
           (err) => {
@@ -175,8 +182,8 @@ const APP = {
           }
         )
         .then(({data}) => {
-          //validating the generated token with an API call
-          APP.token = data.token;
+          //saving the token in a cookie for future use
+          document.cookie = data.token;
           console.log('the logged-in token is: ', APP.token);
           //calling the function to validate the token
           APP.APIToken();
@@ -227,11 +234,10 @@ const APP = {
 
       let btnLogin = document.getElementById('btnLogin');
       btnLogin.addEventListener('click', (ev) => {
+        ev.preventDefault();
         //calling the API function
         APP.APILogin();
         console.log('logged in... go to people page');
-        //navigating to the people's page with the logged-in data
-        //location.href = `/proj4-pwa-starter/people.html?owner=${APP.ownerId}`;
       });
     }
 
@@ -387,7 +393,7 @@ const APP = {
         let dt = new Date(parseInt(person.birthDate)).toLocaleDateString(
           'en-CA'
         );
-        console.log(dt);
+        //console.log(dt);
         return `<div class="card person" data-id="${person._id}">
             <div class="card-content light-green-text text-darken-4">
               <span class="card-title">${person.name}</span>
@@ -461,23 +467,25 @@ const APP = {
     }
   },
   getPeople() {
-    //TODO:
-    //get the list of all people for the user_id
+    //this function returns the list of people for the logged in user.
     if (!APP.owner) return;
-    let url = `${APP.baseURL}people.json?owner=${APP.owner}`;
-    fetch(url)
-      .then(
-        (resp) => {
-          if (resp.ok) return resp.json();
-          throw new Error(resp.statusText);
-        },
-        (err) => {
-          console.warn({ err });
-        }
-      )
+    let url = APP.baseURL +'/api/people/';
+
+    let token = document.cookie;
+
+    let opts = {
+      method: 'GET',
+      headers: new Headers ({
+        "Authorization": 'Bearer ' + token,
+        'x-api-key': 'gil00013',
+      }),
+    }
+
+    fetch(url, opts)
+      .then((resp) => resp.json())
       .then((data) => {
-        //TODO: filter this on the serverside NOT here
-        APP.PEOPLE = data.people.filter((person) => person.owner == APP.owner);
+        console.log(data.data);
+        APP.PEOPLE = data.data;
         APP.buildPeopleList();
       })
       .catch((err) => {
@@ -490,8 +498,17 @@ const APP = {
     //get the list of all the gifts for the person_id and user_id
     if (!APP.owner) return;
     //TODO: use a valid URL and queryString for your API
-    let url = `${APP.baseURL}people.json?owner=${APP.owner}&pid=${APP.PID}`;
-    fetch(url)
+    let url = "needs to be done";
+
+    let opts = {
+      method: 'GET',
+      headers: new Headers ({
+        "Authorization": 'Bearer ' + APP.token,
+        'x-api-key': 'gil00013'
+      }),
+    }
+
+    fetch(url, opts)
       .then(
         (resp) => {
           if (resp.ok) return resp.json();
@@ -502,13 +519,14 @@ const APP = {
         }
       )
       .then((data) => {
+        console.log(data);
         //TODO: filter this on the serverside NOT here
-        let peeps = data.people.filter((person) => person.owner == APP.owner);
+        /*let peeps = data.people.filter((person) => person.owner == APP.owner);
         //TODO: match the person id with the one from the querystring
         let person = peeps.filter((person) => person._id == APP.PID);
         APP.PNAME = person[0].name;
         APP.GIFTS = person[0].gifts; //person is an array from filter()
-        APP.buildGiftList();
+        APP.buildGiftList();*/
       })
       .catch((err) => {
         //TODO: global error handler function
