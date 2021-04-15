@@ -55,26 +55,21 @@
     <main class="container">
       <section class="row people">
         <div class="col s12 m6">
-          <!-- person cards go here and replace this dummy data -->
-          <div class="card person" data-id="">
-            <div class="card-content light-green-text text-darken-4">
-              <span class="card-title">Dean Winchester</span>
-              <p class="dob">12/12/1985</p>
-            </div>
-            <div class="fab-anchor">
-              <a class="btn-floating halfway-fab red del-person"
-                ><i class="material-icons">delete</i></a
-              >
-            </div>
-            <div class="card-action light-green darken-4">
-              <a href="/gifts.html" class="view-gifts white-text"
-                ><i class="material-icons">playlist_add</i> View Gifts</a
-              >
-            </div>
-          </div>
+          <!-- person cards are generated in js-->
         </div>
       </section>
     </main>
+
+  <!-- Modal to confirm person deletion -->
+  <div id="modalDelPerson" class="modal modal-fixed">
+    <div class="modal-content">
+      <h4>Delete Person</h4>
+      <p>Are you sure you want to delete this person from the list? </p>
+    </div>
+    <div class="modal-footer">
+      <a id="delYes" href="#!" class="modal-close waves-effect waves-green btn-flat">Yes</a>
+    </div>
+  </div>
 
     <div class="modal modal-fixed-footer" id="modalAddPerson">
       <div class="modal-content">
@@ -107,7 +102,7 @@
 
     <ul id="slide-out" class="sidenav">
       <li>
-        <a href="/proj4-pwa-starter/?out" class="waves-effect"
+        <a href="/?out" class="waves-effect"
           ><i class="material-icons">logout</i>Logout</a
         >
       </li>
