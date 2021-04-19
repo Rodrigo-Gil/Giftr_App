@@ -251,10 +251,10 @@ const APP = {
         edge: "left",
         draggable: true,
       });
-       //activate modal for deleting person
-       let elemsD = document.querySelectorAll('.modal');
-       let instancesD = M.Modal.init(elemsD)
- 
+      //activate modal for deleting person
+      let elemsD = document.querySelectorAll(".modal");
+      let instancesD = M.Modal.init(elemsD);
+
       //add person listener
       let btnSave = document.getElementById("btnSavePerson");
       btnSave.addEventListener("click", APP.addPerson);
@@ -307,51 +307,52 @@ const APP = {
     ev.preventDefault(); //stop the anchor from leaving the page
     console.log(ev.target);
     let btn = ev.target;
-    if (btn.classList.contains('del-person')) {
+    if (btn.classList.contains("del-person")) {
       //opening the modal
       //activate modal for deleting person
-      let delModal = document.querySelector('#modalDelPerson')
-      let instance = M.Modal.getInstance(delModal)
-      instance.open()
+      let delModal = document.querySelector("#modalDelPerson");
+      let instance = M.Modal.getInstance(delModal);
+      instance.open();
       //if user clicked yes, delete person from db
-      document.querySelector('#delYes').addEventListener('click', () =>{
+      document.querySelector("#delYes").addEventListener("click", () => {
         //delete a person
-      let id = btn.closest('.card[data-id]').getAttribute('data-id');
-      //Calling the API to delete the person
-      //retrieving jwt for validation
-      let jwt = document.cookie
+        let id = btn.closest(".card[data-id]").getAttribute("data-id");
+        //Calling the API to delete the person
+        //retrieving jwt for validation
+        let jwt = document.cookie;
 
-      let opts = {
-        method: 'DELETE',
-        headers: new Headers({
-          'Authorization': 'Bearer ' + jwt,
-          'x-api-key': 'gil00013',
-          'Content-type': 'application/json'
-        })
-      }
+        let opts = {
+          method: "DELETE",
+          headers: new Headers({
+            Authorization: "Bearer " + jwt,
+            "x-api-key": "gil00013",
+            "Content-type": "application/json",
+          }),
+        };
 
-      fetch(APP.baseURL + '/api/people/' + id, opts)
-      .then((resp) => {
-        if (resp.ok) return resp.json();
-        throw new Error(resp.statusText);
-      },
-      (err) => {
-        //failed to fetch data
-        console.warn({ err })
-      }
-    )
-    .then((data) => {
-      console.log(data)
-      //updating the page
-      APP.buildPeopleList()
-      location.reload()
-      })
-    })
+        fetch(APP.baseURL + "/api/people/" + id, opts)
+          .then(
+            (resp) => {
+              if (resp.ok) return resp.json();
+              throw new Error(resp.statusText);
+            },
+            (err) => {
+              //failed to fetch data
+              console.warn({ err });
+            }
+          )
+          .then((data) => {
+            console.log(data);
+            //updating the page
+            APP.buildPeopleList();
+            location.reload();
+          });
+      });
     }
-    if (btn.classList.contains('view-gifts')) {
-      console.log('go view gifts');
+    if (btn.classList.contains("view-gifts")) {
+      console.log("go view gifts");
       //go see the gifts for this person
-      let id = btn.closest('.card[data-id]').getAttribute('data-id');
+      let id = btn.closest(".card[data-id]").getAttribute("data-id");
       //we can pass person_id by sessionStorage or queryString or history.state ?
       let url = `/gifts.html?owner=${APP.owner}&pid=${id}`;
       location.href = url;
@@ -360,8 +361,8 @@ const APP = {
   addPerson(ev) {
     //user clicked the save person button in the modal
     ev.preventDefault();
-    let name = document.getElementById('name').value;
-    let dob = document.getElementById('dob').value;
+    let name = document.getElementById("name").value;
+    let dob = document.getElementById("dob").value;
     let birthDate = new Date(dob).valueOf();
     if (name.trim() && birthDate) {
       console.log(name, dob);
@@ -372,41 +373,40 @@ const APP = {
         birthDate,
         gifts: [],
         owner: APP.owner,
-      }
+      };
       //retrieving the current jwt token from the cookies
       let jwt = document.cookie;
 
       let opts = {
         method: "POST",
-        headers:  new Headers ({
-          'Authorization': 'Bearer ' + jwt,
-          'x-api-key': 'gil00013',
-          'Content-type': 'application/json'
+        headers: new Headers({
+          Authorization: "Bearer " + jwt,
+          "x-api-key": "gil00013",
+          "Content-type": "application/json",
         }),
-        body: JSON.stringify(person)
-      }
+        body: JSON.stringify(person),
+      };
 
-    fetch(APP.baseURL + '/api/people', opts)
-    .then(
-      (resp) => {
-        if (resp.ok) return resp.json();
-        throw new Error(resp.statusText);
-      },
-      (err) => {
-        //failed to fetch data
-        console.warn({ err });
-      }
-    )
-    .then((data) => {
-      console.log('this is the new user: ', data);
-        //updating the interface
-        APP.buildPeopleList();
-        location.reload()
-      
-    })
-    .catch(err => {
-      console.log(err)
-    });
+      fetch(APP.baseURL + "/api/people", opts)
+        .then(
+          (resp) => {
+            if (resp.ok) return resp.json();
+            throw new Error(resp.statusText);
+          },
+          (err) => {
+            //failed to fetch data
+            console.warn({ err });
+          }
+        )
+        .then((data) => {
+          console.log("this is the new user: ", data);
+          //updating the interface
+          APP.buildPeopleList();
+          location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   },
   addGift() {
@@ -583,48 +583,48 @@ const APP = {
       });
   },*/
 
- getGifts() {
-  //TODO:
-  //get the list of all the gifts for the person_id and user_id
-  if (!APP.owner) return;
+  getGifts() {
+    //TODO:
+    //get the list of all the gifts for the person_id and user_id
+    if (!APP.owner) return;
 
-  //getting the current token
-  let token = document.cookie; 
-  
-  let url = APP.baseURL + '/api/people/' + APP.PID;
+    //getting the current token
+    let token = document.cookie;
 
-  let opts = {
-    method: "GET",
-    headers: new Headers({
-      Authorization: "Bearer " + token,
-      "x-api-key": "gil00013",
-    }),
-  };
+    let url = APP.baseURL + "/api/people/" + APP.PID;
 
-  fetch(url, opts)
-    .then(
-      (resp) => {
-        if (resp.ok) return resp.json();
-        throw new Error(resp.statusText);
-      },
-      (err) => {
+    let opts = {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + token,
+        "x-api-key": "gil00013",
+      }),
+    };
+
+    fetch(url, opts)
+      .then(
+        (resp) => {
+          if (resp.ok) return resp.json();
+          throw new Error(resp.statusText);
+        },
+        (err) => {
+          console.warn({ err });
+        }
+      )
+      .then((data) => {
+        console.log(data);
+        //TODO: filter this on the serverside NOT here
+        let peeps = data.people.filter((person) => person.owner == APP.owner);
+        //TODO: match the person id with the one from the querystring
+        let person = peeps.filter((person) => person._id == APP.PID);
+        APP.PNAME = person[0].name;
+        APP.GIFTS = person[0].gifts; //person is an array from filter()
+        APP.buildGiftList();
+      })
+      .catch((err) => {
+        //TODO: global error handler function
         console.warn({ err });
-      }
-    )
-    .then((data) => {
-      console.log(data);
-      //TODO: filter this on the serverside NOT here
-      let peeps = data.people.filter((person) => person.owner == APP.owner);
-      //TODO: match the person id with the one from the querystring
-      let person = peeps.filter((person) => person._id == APP.PID);
-      APP.PNAME = person[0].name;
-      APP.GIFTS = person[0].gifts; //person is an array from filter()
-      APP.buildGiftList();
-    })
-    .catch((err) => {
-      //TODO: global error handler function
-      console.warn({ err });
-    });
+      });
   },
 };
 

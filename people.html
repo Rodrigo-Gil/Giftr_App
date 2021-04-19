@@ -14,10 +14,7 @@
     <meta name="apple-mobile-web-app-status-bar" content="#" />
 
     <!--Import Google Icon Font-->
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
     <!-- styles materialize and main-->
     <link rel="stylesheet" href="./css/materialize.min.css" />
@@ -31,20 +28,12 @@
     <!-- nav bar -->
     <nav>
       <div class="nav-wrapper light-green darken-4">
-        <a
-          href="#"
-          data-target="slide-out"
-          class="brand-logo left sidenav-trigger show-on-large"
-        >
+        <a href="#" data-target="slide-out" class="brand-logo left sidenav-trigger show-on-large">
           Giftr</a
         >
         <ul id="nav-mobile" class="right">
           <li>
-            <a
-              href="#modalAddPerson"
-              title="Add person"
-              id="btnAddPerson"
-              class="modal-trigger"
+            <a href="#modalAddPerson" title="Add person" id="btnAddPerson" class="modal-trigger"
               ><i class="material-icons right">person_add</i> Add Person</a
             >
           </li>
@@ -60,16 +49,16 @@
       </section>
     </main>
 
-  <!-- Modal to confirm person deletion -->
-  <div id="modalDelPerson" class="modal modal-fixed">
-    <div class="modal-content">
-      <h4>Delete Person</h4>
-      <p>Are you sure you want to delete this person from the list? </p>
+    <!-- Modal to confirm person deletion -->
+    <div id="modalDelPerson" class="modal modal-fixed">
+      <div class="modal-content">
+        <h4>Delete Person</h4>
+        <p>Are you sure you want to delete this person from the list?</p>
+      </div>
+      <div class="modal-footer">
+        <a id="delYes" href="#!" class="modal-close waves-effect waves-green btn-flat">Yes</a>
+      </div>
     </div>
-    <div class="modal-footer">
-      <a id="delYes" href="#!" class="modal-close waves-effect waves-green btn-flat">Yes</a>
-    </div>
-  </div>
 
     <div class="modal modal-fixed-footer" id="modalAddPerson">
       <div class="modal-content">
@@ -102,14 +91,10 @@
 
     <ul id="slide-out" class="sidenav">
       <li>
-        <a href="/?out" class="waves-effect"
-          ><i class="material-icons">logout</i>Logout</a
-        >
+        <a href="/?out" class="waves-effect"><i class="material-icons">logout</i>Logout</a>
       </li>
       <li>
-        <a class="sidenav-close" href="#!"
-          ><i class="material-icons">cancel</i>Close Sidenav</a
-        >
+        <a class="sidenav-close" href="#!"><i class="material-icons">cancel</i>Close Sidenav</a>
       </li>
     </ul>
   </body>
