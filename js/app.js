@@ -552,37 +552,6 @@ const APP = {
       });
   },
 
-  /*getGifts() {
-    //TODO:
-    //get the list of all the gifts for the person_id and user_id
-    if (!APP.owner) return;
-    //TODO: use a valid URL and queryString for your API
-    let url = `${APP.baseURL}people.json?owner=${APP.owner}&pid=${APP.PID}`;
-    fetch(url)
-      .then(
-        (resp) => {
-          if (resp.ok) return resp.json();
-          throw new Error(resp.statusText);
-        },
-        (err) => {
-          console.warn({ err });
-        }
-      )
-      .then((data) => {
-        //TODO: filter this on the serverside NOT here
-        let peeps = data.people.filter((person) => person.owner == APP.owner);
-        //TODO: match the person id with the one from the querystring
-        let person = peeps.filter((person) => person._id == APP.PID);
-        APP.PNAME = person[0].name;
-        APP.GIFTS = person[0].gifts; //person is an array from filter()
-        APP.buildGiftList();
-      })
-      .catch((err) => {
-        //TODO: global error handler function
-        console.warn({ err });
-      });
-  },*/
-
   getGifts() {
     //TODO:
     //get the list of all the gifts for the person_id and user_id
