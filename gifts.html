@@ -44,61 +44,14 @@
 
     <main class="container">
       <h5 class="light-green-text text-darken-2 person-name">
-        Ideas for <a href="/people.html">Dean Winchester</a>
+        Ideas for <a href="/people.html"></a>
       </h5>
       <section class="row gifts">
-        <div class="col s12 m6">
-          <!-- gift cards go here -->
-          <div class="card gift" data-id="">
-            <div class="card-content light-green-text text-darken-4">
-              <h5 class="card-title idea">
-                <i class="material-icons">lightbulb</i> 10Kg Bag of Salt
-              </h5>
-              <h6 class="price"><i class="material-icons">paid</i> 35.00</h6>
-              
-              <h6 class="store">
-                <i class="material-icons">room</i>Target</h6>
-              </h6>
-              <h6 class="link">
-                <i class="material-icons">link</i>
-                <a href="http://www.example.com/" class="" target="_blank"
-                  >http://www.example.com/</a
-                >
-              </h6>
-            </div>
-            <div class="fab-anchor">
-              <a class="btn-floating halfway-fab red del-gift"
-                ><i class="material-icons del-gift">delete</i></a
-              >
-            </div>
-          </div>
-
-          <div class="card gift" data-id="">
-            <div class="card-content light-green-text text-darken-4">
-              <h5 class="card-title idea">
-                <i class="material-icons">lightbulb</i> Jug of Holy Water
-              </h5>
-              <h6 class="price"><i class="material-icons">paid</i> 85.00</h6>
-              <h6 class="store">
-                <i class="material-icons">room</i>Walmart</h6>
-              </h6>
-              <h6 class="link">
-                <i class="material-icons">link</i>
-                <a href="http://www.example.com/" class="" target="_blank"
-                  >http://www.example.com/</a
-                >
-              </h6>
-            </div>
-            <div class="fab-anchor">
-              <a class="btn-floating halfway-fab red"
-                ><i class="material-icons">delete</i></a
-              >
-            </div>
-          </div>
+        <div id="people-content" class="col s12 m6">
+          <!-- gift cards go here, if no gifts, show an error message -->
         </div>
       </section>
     </main>
-    
     <div class="modal modal-fixed-footer" id="modalAddGift">
       <div class="modal-content">
         <h4>New Gift idea</h4>
@@ -144,7 +97,7 @@
     <ul id="slide-out" class="sidenav">
       <!-- TODO: add a button for back to people page -->
       <li>
-        <a href="/Giftr_App/?out" class="waves-effect"><i class="material-icons">logout</i>Logout</a>
+        <a href="/?out" class="waves-effect"><i class="material-icons">logout</i>Logout</a>
       </li>
       <li><a class="sidenav-close" href="#!"><i class="material-icons">cancel</i>Close Sidenav</a></li>
     </ul>

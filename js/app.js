@@ -448,39 +448,47 @@ const APP = {
     let container = document.querySelector("section.row.people>div");
     if (container) {
       //TODO: add handling for null and undefined or missing values
-      //TODO: display message if there are no people
-      container.innerHTML = APP.PEOPLE.map((person) => {
-        let dt = new Date(parseInt(person.birthDate)).toLocaleDateString("en-CA");
-        //console.log(dt);
-        return `<div class="card person" data-id="${person._id}">
-        <div class="card-content light-green-text text-darken-4">
-          <span class="card-title">${person.name}</span>
-          <p class="dob">${dt}</p>
-        </div>
-        <div class="fab-anchor">
-          <a href="#modalDelPerson" class="modal-trigger btn-floating halfway-fab red del-person"
-            ><i class="material-icons del-person">delete</i></a
-          >
-        </div>
-        <div class="card-action light-green darken-4">
-          <a href="/proj4-pwa-starter/gifts.html" class="view-gifts white-text"
-            ><i class="material-icons">playlist_add</i> View Gifts</a
-          >
-        </div>
-      </div>`;
-      }).join("\n");
-    } else {
-      //TODO: error message
-    }
-  },
-  buildGiftList: () => {
+      if (APP.PEOPLE.length !== 0) {
+        document.querySelector('#no_people').innerHTML= "";
+        container.innerHTML = APP.PEOPLE.map((person) => {
+          let dt = new Date(parseInt(person.birthDate)).toLocaleDateString("en-CA");
+          //console.log(dt);
+          return `<div class="card person" data-id="${person._id}">
+          <div class="card-content light-green-text text-darken-4">
+            <span class="card-title">${person.name}</span>
+            <p class="dob">${dt}</p>
+          </div>
+          <div class="fab-anchor">
+            <a href="#modalDelPerson" class="modal-trigger btn-floating halfway-fab red del-person"
+              ><i class="material-icons del-person">delete</i></a
+            >
+          </div>
+          <div class="card-action light-green darken-4">
+            <a href="/proj4-pwa-starter/gifts.html" class="view-gifts white-text"
+              ><i class="material-icons">playlist_add</i> View Gifts</a
+            >
+          </div>
+        </div>`;
+        }).join("\n");
+      } else {
+        //TODO: error message
+      }
+        
+      }
+    },
+    buildGiftList: () => {
     let container = document.querySelector("section.row.gifts>div");
     if (container) {
       //get the name of the person to display in the title
       let a = document.querySelector(".person-name a");
       a.textContent = APP.PNAME;
       a.href = `/people.html?owner=${APP.owner}`;
-      //TODO: display message if there are no gifts
+      //displaying a message on the screen if there no gifts
+      if (APP.GIFTS.length == 0) {
+        console.log('no gifts available, show message')
+        let message = document.querySelector("#no_gifts")
+        message.innerHTML = "There are no gifts to display for this person"
+      }
 
       container.innerHTML = APP.GIFTS.map((gift) => {
         //TODO: add handling for null and undefined or missing values
@@ -541,9 +549,9 @@ const APP = {
 
     fetch(url, opts)
       .then((resp) => resp.json())
-      .then((data) => {
-        console.log(data.data);
-        APP.PEOPLE = data.data;
+      .then(({data}) => {
+        console.log(data);
+        APP.PEOPLE = data;
         APP.buildPeopleList();
       })
       .catch((err) => {
@@ -553,8 +561,7 @@ const APP = {
   },
 
   getGifts() {
-    //TODO:
-    //get the list of all the gifts for the person_id and user_id
+    //function to get the list of gifts for the person on the api
     if (!APP.owner) return;
 
     //getting the current token
@@ -580,14 +587,14 @@ const APP = {
           console.warn({ err });
         }
       )
-      .then((data) => {
+      .then(({data}) => {
         console.log(data);
-        //TODO: filter this on the serverside NOT here
-        let peeps = data.people.filter((person) => person.owner == APP.owner);
-        //TODO: match the person id with the one from the querystring
-        let person = peeps.filter((person) => person._id == APP.PID);
-        APP.PNAME = person[0].name;
-        APP.GIFTS = person[0].gifts; //person is an array from filter()
+        APP.owner = data.owner;
+        //matching the person ID with the query string and passing data
+        //onto the global variables.
+        APP.PID = data._id;
+        APP.PNAME = data.name;
+        APP.GIFTS = data.gifts;
         APP.buildGiftList();
       })
       .catch((err) => {
