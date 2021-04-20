@@ -112,7 +112,6 @@ const APP = {
   APIToken() {
     //API token validation function
     let token = document.cookie;
-
     let opts = {
       method: "GET",
       headers: new Headers({
@@ -297,10 +296,46 @@ const APP = {
     console.log(ev.target);
     let btn = ev.target;
     if (btn.classList.contains("del-gift")) {
-      let id = btn.closest(".card[data-id]").getAttribute("data-id");
-      //TODO: remove from DB by calling API
-      APP.GIFTS = APP.GIFTS.filter((gift) => gift._id != id);
-      APP.buildGiftList();
+    
+    let id = btn.closest(".card[data-id]").getAttribute("data-id");
+    //activate modal for deleting gift
+    let delModal = document.querySelector("#modalDelGift");
+    let instance = M.Modal.getInstance(delModal);
+    instance.open();
+
+    //if the user confirmed, we can delete
+    document.querySelector("#delYes").addEventListener("click", () => {
+      //Removing gifts from the DB
+    let token = document.cookie;
+    let opts = {
+      method: "DELETE",
+      headers: new Headers({
+        Authorization: "Bearer " + token,
+        "x-api-key": "gil00013",
+      }),
+    };
+    fetch(APP.baseURL + `/api/people/${APP.PID}/gifts/${id}`, opts)
+      .then(
+        (resp) => {
+          if (resp.ok) return resp.json();
+          throw new Error(resp.statusText);
+        },
+        (err) => {
+          //failed to fetch data
+          console.warn({ err });
+        }
+      )
+      .then(({ data }) => {
+        console.log("this is the deleted gift", data);
+        //updating giftList
+        APP.buildGiftList();
+        //refreshing the page
+        location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+        });
+      })
     }
   },
   delOrViewPerson(ev) {
@@ -308,7 +343,6 @@ const APP = {
     console.log(ev.target);
     let btn = ev.target;
     if (btn.classList.contains("del-person")) {
-      //opening the modal
       //activate modal for deleting person
       let delModal = document.querySelector("#modalDelPerson");
       let instance = M.Modal.getInstance(delModal);
@@ -432,7 +466,7 @@ const APP = {
           checkKeys(subKey)
         }
         if(obj[key]==""){
-        console.log('iteration is over')
+        console.log('the values are empty')
         let btnSave = document.querySelector("#btnSaveGift")
         btnSave.classList.remove('modal-close')
         }
@@ -481,7 +515,7 @@ const APP = {
           console.log(err);
         });
       }
-      },
+  },
   sendMessage(msg, target) {
     //TODO:
     //send a message to the service worker
@@ -522,8 +556,8 @@ const APP = {
       }
         
       }
-    },
-    buildGiftList: () => {
+  },
+  buildGiftList: () => {
     let container = document.querySelector("section.row.gifts>div");
     console.log(APP.GIFTS)
     if (container) {
@@ -558,7 +592,7 @@ const APP = {
               </h6>
             </div>
             <div class="fab-anchor">
-              <a class="btn-floating halfway-fab red del-gift"
+              <a href="#modalDelGift" class="modal-trigger btn-floating halfway-fab red del-gift"
                 ><i class="material-icons del-gift">delete</i></a
               >
             </div>
@@ -595,7 +629,6 @@ const APP = {
         console.warn({ err });
       });
   },
-
   getGifts() {
     //function to get the list of gifts for the person on the api
     if (!APP.owner) return;
