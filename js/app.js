@@ -62,21 +62,19 @@ const APP = {
     APP.page = document.body.id;
     switch (APP.page) {
       case "home":
-        //do things for the home page
         //check for the ?out and clear out the user's session info
-        //TODO: this check for logged in should be done through API and token
+        //checking if the user is logged-in and fetching data to the API
         if (params.has("in")) {
-          //TODO: if we're loggedIn , fetch data to the api, to find if the user is loggedIn
+          APP.getOwner();
         }
-        //TODO: clear out old tokens when the user logs out
+        //clearing all the variables and the jwt token when the user logs out
         if (params.has("out")) {
           APP.owner = null;
           APP.GIFTS = [];
           APP.PEOPLE = [];
           APP.PID = null;
           APP.PNAME = null;
-          //delete the cookie
-          document.cookie = "";
+          document.cookie.value = "";
         }
         break;
       case "people":
@@ -119,7 +117,6 @@ const APP = {
         "x-api-key": "gil00013",
       }),
     };
-
     fetch(APP.baseURL + "/auth/users/me", opts)
       .then(
         (resp) => {
@@ -281,8 +278,11 @@ const APP = {
       //add gift listener
       let btnSave = document.getElementById("btnSaveGift");
       btnSave.addEventListener("click", APP.addGift);
-      //TODO:
-      //delete gift listener TODO: Add confirmation for delete
+      //adding a listener on the back to people button
+      let btnPeople = document.querySelector('#back_peep');
+      btnPeople.addEventListener('click', (ev) => {
+      window.location = ev.target.href})
+      
       let section = document.querySelector(`section.gifts`);
       section.addEventListener("click", APP.delGift);
       //stop form submissions
