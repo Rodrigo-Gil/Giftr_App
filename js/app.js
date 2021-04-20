@@ -14,7 +14,6 @@ const APP = {
   init() {
     //init the sw on the APP
     //APP.swInit();
-
     console.log("App initialized");
     //run the pageLoaded function
     APP.pageLoaded();
@@ -138,7 +137,7 @@ const APP = {
         location.href = `/people.html?owner=${APP.owner}`;
       })
       .catch((err) => {
-        console.log(err);
+        APP.errorHandler(err);
       });
   },
   APILogin() {
@@ -174,7 +173,7 @@ const APP = {
           },
           (err) => {
             //failed to fetch user
-            console.warn({ err });
+            APP.errorHandler(err)
           }
         )
         .then(({ data }) => {
@@ -210,7 +209,7 @@ const APP = {
     fetch(registerAPI, option)
       .then((res) => res.json())
       .then((resultData) => console.log(resultData))
-      .catch((error) => console.log(error));
+      .catch((error) => APP.errorHandler(error));
     console.log(registerAPI);
     // after successfully register a user, should then log in the user.
   },
@@ -282,7 +281,7 @@ const APP = {
       let btnPeople = document.querySelector('#back_peep');
       btnPeople.addEventListener('click', (ev) => {
       window.location = ev.target.href})
-      
+
       let section = document.querySelector(`section.gifts`);
       section.addEventListener("click", APP.delGift);
       //stop form submissions
@@ -333,7 +332,7 @@ const APP = {
         location.reload();
       })
       .catch((err) => {
-        console.log(err);
+        APP.errorHandler(err);
         });
       })
     }
@@ -380,6 +379,10 @@ const APP = {
             //updating the page
             APP.buildPeopleList();
             location.reload();
+          })
+          .catch((err) => {
+            //calling the global error handler
+            APP.errorHandler(err);
           });
       });
     }
@@ -401,7 +404,6 @@ const APP = {
     if (name.trim() && birthDate) {
       console.log(name, dob);
       //fetching data and saving onto the api
-
       let person = {
         name,
         birthDate,
@@ -439,7 +441,7 @@ const APP = {
           location.reload();
         })
         .catch((err) => {
-          console.log(err);
+          APP.errorHandler(err);
         });
     }
   },
@@ -512,7 +514,8 @@ const APP = {
           location.reload();
         })
         .catch((err) => {
-          console.log(err);
+          //calling the global error handler
+          APP.errorHandler(err)
         });
       }
   },
@@ -528,7 +531,6 @@ const APP = {
     //build the list of cards inside the current page's container
     let container = document.querySelector("section.row.people>div");
     if (container) {
-      //TODO: add handling for null and undefined or missing values
       if (APP.PEOPLE.length !== 0) {
         document.querySelector('#no_people').innerHTML= "";
         container.innerHTML = APP.PEOPLE.map((person) => {
@@ -552,9 +554,10 @@ const APP = {
         </div>`;
         }).join("\n");
       } else {
-        //TODO: error message
-      }
-        
+        //displaying an error message
+        let noPeople = document.querySelector("#no_people")
+        noPeople.innerHTML="There is no people to display"
+      } 
       }
   },
   buildGiftList: () => {
@@ -571,7 +574,6 @@ const APP = {
         let message = document.querySelector("#no_gifts")
         message.innerHTML = "There are no gifts to display for this person"
       }
-
       container.innerHTML = APP.GIFTS.map((gift) => {
         //validation of url is done when adding a gift
         return `<div class="card gift" data-id="${gift._id}">
@@ -599,7 +601,10 @@ const APP = {
           </div>`;
       }).join("\n");
     } else {
-      //TODO: error message
+      //error message
+      let message = document.createElement('h3');
+      message.innerHTML = 'Sorry, no gifts are available to show';
+      container.append(message);
     }
   },
   getPeople() {
@@ -625,8 +630,8 @@ const APP = {
         APP.buildPeopleList();
       })
       .catch((err) => {
-        //TODO: global error handler function
-        console.warn({ err });
+        //calling the global error handler
+        APP.errorHandler(err)
       });
   },
   getGifts() {
@@ -665,9 +670,13 @@ const APP = {
         APP.buildGiftList();
       })
       .catch((err) => {
-        //TODO: global error handler function
-        console.warn({ err });
+        //calling the global error handler
+        APP.errorHandler(err)
       });
+  },
+  errorHandler(err) {
+    window.alert('Sorry your request cannot be completed:', err)
+    console.warn('the request could not be completed', err)
   },
 };
 
