@@ -409,43 +409,68 @@ const APP = {
         });
     }
   },
-  addGift(ev) {
+  addGift() {
     //user clicked the save gift button in the modal
     let btnSave=document.querySelector('#btnSaveGift');
     btnSave.classList.toggle('modal-close')
-    let field = {
+
+    let gift = {
     "name": document.getElementById("name").value,
     "price": document.getElementById("price").value,
     "storeName": document.getElementById("storeName").value,
     "storeProductURL": document.getElementById("storeProductURL").value
     }
-    //if there is an empty field, disabling the send button
-    for (var key in field) {
-      if (field[key] === ""){
+    //validating the provided fields
+    for (var key in gift) {
+      if (gift[key] === ""){
         console.log("empty field")
         let btnSave = document.querySelector("#btnSaveGift")
         btnSave.classList.remove('modal-close')
       }
     }
-    //TODO: check for valid URL if provided
-    //TODO: provide error messages to user about invalid prices and urls
-    if (name.trim() && !isNaN(price) && storeName.trim()) {
-      let gift = {
-        _id: Date.now(),
-        name,
-        price,
-        store: {
-          name: storeName,
-          productURL: storeProductURL,
-        },
-      };
-      //add the gift to the current person
-      //TODO: Actually send this to the API instead of just updating the array
-      APP.GIFTS.push(gift);
-      APP.buildGiftList();
-      document.querySelector(".modal form").reset();
-    }
-  },
+    //only do a fetch call once the validation has happened.
+    if (btnSave.classList.contains('modal-close')) {
+        (gift.name && gift.storeName).trim();
+        //retrieving the current jwt token from the cookies
+        let jwt = document.cookie;
+
+        //fetching data to the api to add the gift
+        let opts = {
+          method: "POST",
+          headers: new Headers({
+            Authorization: "Bearer " + jwt,
+            "x-api-key": "gil00013",
+            "Content-type": "application/json",
+          }),
+          body: JSON.stringify(gift),
+        };
+
+        fetch(APP.baseURL+`/api/people/${APP.PID}/gifts`, opts)
+        .then(
+          (resp) => {
+            if (resp.ok) return resp.json();
+            throw new Error(resp.statusText);
+          },
+          (err) => {
+            //failed to fetch data
+            console.warn({ err });
+          }
+        )
+        .then(({data}) => {
+          console.log("this is the new gift: ", data);
+          //updating the gifts variable
+          APP.gifts = data;
+          //cleaning the add form modal
+          document.querySelector(".modal form").reset();
+          //updating the interface
+          //APP.buildGiftList()
+          //location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      }
+      },
   sendMessage(msg, target) {
     //TODO:
     //send a message to the service worker
