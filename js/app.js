@@ -409,13 +409,24 @@ const APP = {
         });
     }
   },
-  addGift() {
+  addGift(ev) {
     //user clicked the save gift button in the modal
-    let name = document.getElementById("name").value;
-    let price = document.getElementById("price").value;
-    let storeName = document.getElementById("storeName").value;
-    let storeProductURL = document.getElementById("storeProductURL").value;
-    //TODO: make all 4 fields required
+    let btnSave=document.querySelector('#btnSaveGift');
+    btnSave.classList.toggle('modal-close')
+    let field = {
+    "name": document.getElementById("name").value,
+    "price": document.getElementById("price").value,
+    "storeName": document.getElementById("storeName").value,
+    "storeProductURL": document.getElementById("storeProductURL").value
+    }
+    //if there is an empty field, disabling the send button
+    for (var key in field) {
+      if (field[key] === ""){
+        console.log("empty field")
+        let btnSave = document.querySelector("#btnSaveGift")
+        btnSave.classList.remove('modal-close')
+      }
+    }
     //TODO: check for valid URL if provided
     //TODO: provide error messages to user about invalid prices and urls
     if (name.trim() && !isNaN(price) && storeName.trim()) {
@@ -563,10 +574,8 @@ const APP = {
   getGifts() {
     //function to get the list of gifts for the person on the api
     if (!APP.owner) return;
-
     //getting the current token
     let token = document.cookie;
-
     let url = APP.baseURL + "/api/people/" + APP.PID;
 
     let opts = {

@@ -46,9 +46,10 @@
       <h5 class="light-green-text text-darken-2 person-name">
         Ideas for <a href="/people.html"></a>
       </h5>
-      <section class="row gifts">
+      <section class="row center gifts">
+        <h5 id="no_gifts"></h5>
         <div id="people-content" class="col s12 m6">
-          <!-- gift cards go here, if no gifts, show an error message -->
+          <!-- gift cards go here, if no gifts-->
         </div>
       </section>
     </main>
@@ -59,26 +60,34 @@
         <form class="col s12">
           <div class="row">
             <div class="input-field col s12 black-text">
-              <input id="name" type="text" class="validate black-text" />
+              <input id="name" type="text" class="validate black-text" class="validate" required="" 
+              aria-required="true"/>
               <label for="name" class="black-text">Idea</label>
+              <span class="helper-text" data-error="please try again"></span>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12 black-text">
-              <input id="price" type="text" inputmode="numeric" class="validate black-text" />
+              <input id="price" type="number" inputmode="numeric" class="validate black-text" class="validate" required=""
+              aria-required="true"/>
               <label for="price" class="black-text">Price</label>
+              <span class="helper-text" data-error="please try again"></span>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12 black-text">
-              <input id="storeName" type="text" class="validate black-text" />
+              <input id="storeName" type="text" class="validate black-text" class="validate" required=""
+              aria-required="true"/>
               <label for="storeName" class="black-text">Store Name</label>
+              <span class="helper-text" data-error="please try again"></span>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12 black-text">
-              <input id="storeProductURL" type="url" class="validate black-text" />
+              <input id="storeProductURL" type="url" class="validate black-text" class="validate" required=""
+              aria-required="true"/>
               <label for="storeProductURL" class="black-text">Website</label>
+              <span class="helper-text" data-error="please try again"></span>
             </div>
           </div>
         </form>
