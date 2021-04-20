@@ -415,22 +415,33 @@ const APP = {
     btnSave.classList.toggle('modal-close')
 
     let gift = {
-    "name": document.getElementById("name").value,
-    "price": document.getElementById("price").value,
-    "storeName": document.getElementById("storeName").value,
-    "storeProductURL": document.getElementById("storeProductURL").value
-    }
-    //validating the provided fields
-    for (var key in gift) {
-      if (gift[key] === ""){
-        console.log("empty field")
-        let btnSave = document.querySelector("#btnSaveGift")
-        btnSave.classList.remove('modal-close')
+      name: document.getElementById("name").value,
+      price: document.getElementById("price").value,
+      store: {
+        name: document.getElementById("storeName").value,
+        productURL: document.getElementById("storeProductURL").value
       }
     }
+    //validating the inputs
+    checkKeys(gift)
+    function checkKeys(obj) {
+    for (let key in obj) {
+        console.log(key)
+        let subKey = obj[key]
+        if (typeof(subKey) == "object") {
+          checkKeys(subKey)
+        }
+        if(obj[key]==""){
+        console.log('iteration is over')
+        let btnSave = document.querySelector("#btnSaveGift")
+        btnSave.classList.remove('modal-close')
+        }
+        }
+      }
+
     //only do a fetch call once the validation has happened.
     if (btnSave.classList.contains('modal-close')) {
-        (gift.name && gift.storeName).trim();
+        //(gift.name && gift.storeName).trim();
         //retrieving the current jwt token from the cookies
         let jwt = document.cookie;
 
@@ -463,8 +474,8 @@ const APP = {
           //cleaning the add form modal
           document.querySelector(".modal form").reset();
           //updating the interface
-          //APP.buildGiftList()
-          //location.reload();
+          APP.buildGiftList()
+          location.reload();
         })
         .catch((err) => {
           console.log(err);
@@ -514,6 +525,7 @@ const APP = {
     },
     buildGiftList: () => {
     let container = document.querySelector("section.row.gifts>div");
+    console.log(APP.GIFTS)
     if (container) {
       //get the name of the person to display in the title
       let a = document.querySelector(".person-name a");
@@ -527,19 +539,7 @@ const APP = {
       }
 
       container.innerHTML = APP.GIFTS.map((gift) => {
-        //TODO: add handling for null and undefined or missing values
-        //TODO: check for a valid URL before setting an href
-        let url = gift.store.productURL;
-        try {
-          url = new URL(url);
-          urlStr = url;
-        } catch (err) {
-          if (err.name == "TypeError") {
-            //not a valid url
-            url = "";
-            urlStr = "No valid URL provided";
-          }
-        }
+        //validation of url is done when adding a gift
         return `<div class="card gift" data-id="${gift._id}">
             <div class="card-content light-green-text text-darken-4">
               <h5 class="card-title idea">
@@ -552,8 +552,8 @@ const APP = {
               </h6>
               <h6 class="link">
                 <i class="material-icons">link</i>
-                <a href="${url}" class="" target="_blank"
-                  >${urlStr}</a
+                <a href="${gift.store.productURL}" class="" target="_blank"
+                  >${gift.store.productURL}</a
                 >
               </h6>
             </div>
