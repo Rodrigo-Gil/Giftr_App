@@ -14,7 +14,7 @@ const APP = {
   token: null,
   init() {
     //init the sw on the APP
-    //APP.swInit();
+    APP.swInit();
     console.log("App initialized");
     //run the pageLoaded function
     APP.pageLoaded();
