@@ -184,7 +184,7 @@ const APP = {
           APP.APIToken();
         })
         //DO a global error handling function
-        .catch((err) => console.log("error fetching the data: ", err));
+        .catch((err) => APP.errorHandler(err));
     } else {
       console.log("no e-mail address found");
     }
@@ -273,7 +273,10 @@ const APP = {
         edge: "left",
         draggable: true,
       });
-
+      //adding the address to the back button
+      let backPeep = document.querySelector("#back_peep")
+      backPeep.addEventListener('click', () =>
+      location.href = `/people.html?owner=${APP.owner}`)
       //add gift listener
       let btnSave = document.getElementById("btnSaveGift");
       btnSave.addEventListener("click", APP.addGift);
@@ -288,6 +291,23 @@ const APP = {
       document.querySelector("#modalAddGift form").addEventListener("submit", (ev) => {
         ev.preventDefault();
       });
+    }
+
+    //PASSWORD PAGE
+    if(APP.page === "password") {
+      //activating the sidenav
+      let elemsP = document.querySelectorAll(".sidenav");
+      let instancesL = M.Sidenav.init(elemsP, {
+        edge: "left",
+        draggable: true,
+      });
+      //adding the submit password listener
+      let btnSave = document.querySelector("#submit_pass")
+      btnSave.addEventListener('click', APP.changePassword)
+      //adding listener for back people on the sideNav
+      let back = document.querySelector('#back');
+      back.addEventListener('click', () => 
+      history.back())
     }
   },
   delGift(ev) {
@@ -677,6 +697,73 @@ const APP = {
   errorHandler(err) {
     window.alert('Sorry your request cannot be completed:', err)
     console.warn('the request could not be completed', err)
+  },
+  changePassword() {
+    //storing the new password
+    let newPass1 = document.querySelector('#newPassword').value;
+    //storing the confirmation password
+    let newPass2 = document.querySelector('#newPassword1').value;
+
+    //if no password were entered
+    if (newPass1 == "")
+    window.alert("Please enter your new password");
+    //if confirmation password were not entered
+    if (newPass2 =="")
+    window.alert("Please confirm your password");
+
+    else if (newPass1 != newPass2) {
+      window.alert("Your password don't match. Please try again")
+    }
+
+    else {
+      let password = {
+        password: newPass2
+      }
+      //doing the fetch and saving the new password on the db
+      let token = document.cookie
+      console.log(token)
+      let opts = {
+        method: "PATCH",
+        headers: new Headers({
+          Authorization: "Bearer " + token,
+          "x-api-key": "gil00013",
+          "Content-type": "application/json",
+        }),
+        body: JSON.stringify(password)
+      };
+
+      console.log(opts.body)
+  
+      fetch(APP.baseURL + '/auth/users/me', opts)
+        .then(
+          (resp) => {
+            if (resp.ok) return resp.json();
+            throw new Error(resp.statusText);
+          },
+          (err) => {
+            console.warn({ err });
+          }
+        )
+        .then(({data}) => {
+          console.log('password was changed', data);
+          //activate the confirmation button modal and taking the user back to the home page
+          let elemsR = document.querySelectorAll(".modal");
+          let instancesR = M.Modal.init(elemsR, { dismissable: true });
+
+          setTimeout(() => { let PassModal = document.querySelector("#modalPassword");
+          let instance = M.Modal.getInstance(PassModal);
+          instance.open();
+          //if user clicked ok, redirect to the people page
+          document.querySelector("#PassYes").addEventListener('click', (ev) => {
+          APP.owner = data._id;
+          location.href = `/people.html?owner=${APP.owner}`})
+          }, 2000)
+        })
+        .catch((err) => {
+          //calling the global error handler
+          APP.errorHandler(err)
+        });
+    }
   },
 };
 
