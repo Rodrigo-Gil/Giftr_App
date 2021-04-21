@@ -8,10 +8,15 @@ let staticList = [
   '/index.html',
   '/gifts.html',
   '/people.html',
+  '/password.html',
   '/css/main.css',
   '/css/materialize.min.css',
   'https://fonts.googleapis.com/icon?family=Material+Icons',
   'https://fonts.gstatic.com/s/materialicons/v78/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2',
+  '/manifest.json',
+  '/js/app.js',
+  '/js/materialize.min.js',
+  
 ];
 let dynamicList = [];
 

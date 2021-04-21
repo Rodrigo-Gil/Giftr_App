@@ -2,6 +2,7 @@ const APP = {
   //api for testing purposes
   baseURL: "https://giftr.mad9124.rocks",
   //baseURL: "http://127.0.0.1:3030",
+  //baseURL: "http://giftr-api-elb-1492435831.us-east-1.elb.amazonaws.com",
   //TODO: update the key for session storage
   OWNERKEY: "giftr-<${}>-owner",
   owner: null,
@@ -261,7 +262,6 @@ const APP = {
         ev.preventDefault();
       });
     }
-
     //GIFTS PAGE
     if (APP.page === "gifts") {
       //activate the add gift modal
@@ -308,6 +308,15 @@ const APP = {
       let back = document.querySelector('#back');
       back.addEventListener('click', () => 
       history.back())
+    }
+
+    //404 PAGE
+    if(APP.page === "404") {
+      //adding a listener on the back button
+      let backBtn = document.querySelector("#back_offline");
+      backBtn.addEventListener('click', () => {
+        history.back()
+      })
     }
   },
   delGift(ev) {
