@@ -3,11 +3,11 @@
   <head>
     <title>GIFTR</title>
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#307daf" />
+    <meta name="theme-color" content="#03a9f4" />
 
     <!-- ios support link and meta tags-->
     <link rel="apple-touch-icon" href="./img/apple-touch-icon-iphone-retina-120x120.png" />
-    <meta name="apple-mobile-web-app-status-bar" content="#307daf" />
+    <meta name="apple-mobile-web-app-status-bar" content="#03a9f4" />
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -25,17 +25,20 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
   </head>
-
-  <body class="container" id="home">
-    <h3>GiftR App</h3>
-    <div class="row">
+  <body class="center" id="home">
+    <!-- nav bar -->
+    <nav>
+      <div class="nav-wrapper light-blue">
+        <a href="#" data-target="slide-out" class="brand-logo left sidenav-trigger show-on-large">Giftr</a>
+      </div>
+    </nav>
+    <div id="login_box" class="row container">
       <div class="col s12">
         <ul class="tabs">
           <li class="tab col s3 active"><a href="#inbox">Register</a></li>
           <li class="tab col s3"><a href="#unread" id="login_form">Login</a></li>
         </ul>
       </div>
-
       <div id="inbox" class="col s12">
         <div class="row">
             <form class="col s12">
@@ -49,7 +52,6 @@
                   <label for="last_name">Last Name</label>
                 </div>
               </div>
-
               <div class="row">
                 <div class="input-field col s12">
                   <input id="email" type="email" class="validate" />
@@ -62,15 +64,13 @@
                   <label for="password">Password</label>
                 </div>
               </div>
-              
               </div>
-              <a class="waves-effect waves-light btn light-green darken-2" onclick="fun()" id="btnRegister"
+              <a class="waves-effect waves-light btn indigo darken-1" onclick="fun()" id="btnRegister"
                 ><i class="material-icons left">person_add</i>Register</a
               >
             </form>
           </div>
       <div id="unread" class="col s12">
-      
       <form class="col s12">
         <div class="row">
           <div class="input-field col s12">
@@ -86,7 +86,7 @@
           </div>
         </div>
 
-        <a class="waves-effect waves-light btn light-green darken-2" id="btnLogin"
+        <a class="waves-effect waves-light btn indigo darken-1" id="btnLogin"
                 ><i class="material-icons left">login</i>Login</a
               >
         <br>

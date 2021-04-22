@@ -563,10 +563,10 @@ const APP = {
       if (APP.PEOPLE.length !== 0) {
         document.querySelector('#no_people').innerHTML= "";
         container.innerHTML = APP.PEOPLE.map((person) => {
-          let dt = new Date(parseInt(person.birthDate)).toLocaleDateString("en-CA");
+          let dt = new Date(person.birthDate).toLocaleDateString("en-CA");
           //console.log(dt);
           return `<div class="card person" data-id="${person._id}">
-          <div class="card-content light-green-text text-darken-4">
+          <div class="card-content dark-blue-text text-darken-4">
             <span class="card-title">${person.name}</span>
             <p class="dob">${dt}</p>
           </div>
@@ -575,7 +575,7 @@ const APP = {
               ><i class="material-icons del-person">delete</i></a
             >
           </div>
-          <div class="card-action light-green darken-4">
+          <div class="card-action indigo darken-4">
             <a href="/proj4-pwa-starter/gifts.html" class="view-gifts white-text"
               ><i class="material-icons">playlist_add</i> View Gifts</a
             >
@@ -606,7 +606,7 @@ const APP = {
       container.innerHTML = APP.GIFTS.map((gift) => {
         //validation of url is done when adding a gift
         return `<div class="card gift" data-id="${gift._id}">
-            <div class="card-content light-green-text text-darken-4">
+            <div class="card-content dark-blue-text text-darken-4">
               <h5 class="card-title idea">
                 <i class="material-icons">lightbulb</i> ${gift.name}
               </h5>

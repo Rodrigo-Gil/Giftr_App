@@ -3,7 +3,7 @@
   "short_name": "GIFTR",
   "description": "An app for gift suggestions",
   "orientation": "portrait-primary",
-  "theme_color": "#307daf",
+  "theme_color": "#03a9f4",
   "background_color": "#e1e7ec",
   "display": "standalone",
   "scope": "/",

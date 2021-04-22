@@ -3,7 +3,7 @@ body {
   width: 100vw;
   padding: 0;
   margin: 0;
-  background-color: #ccff90;
+  background-color: #e1e7ec;
 }
 .fab-anchor {
   position: relative;
@@ -51,6 +51,11 @@ body {
 #home_instr {
   font-weight: bold;
 }
+
+#login_box{
+  margin-top: 5rem;
+}
+
 
 
 /**** CSS for changing colours on the input ******/
