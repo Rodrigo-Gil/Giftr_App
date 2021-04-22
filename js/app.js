@@ -3,8 +3,8 @@ const APP = {
   baseURL: "https://giftr.mad9124.rocks",
   //baseURL: "http://127.0.0.1:3030",
   //baseURL: "http://giftr-api-elb-1492435831.us-east-1.elb.amazonaws.com",
-  //TODO: update the key for session storage
-  OWNERKEY: "giftr-<${}>-owner",
+  //update the key for session storage
+  OWNERKEY: "giftr-<${Rodrigo-Saif}>-owner",
   owner: null,
   user: null,
   GIFTS: [],
@@ -85,8 +85,25 @@ const APP = {
         //do things for the gifts page
         APP.PID = params.get("pid");
         APP.getOwner().getGifts();
+        //asking user to install the app
+        APP.installAPP();
         break;
     }
+  },
+  installAPP() {
+      //asking the user to install the PWA
+      console.log('install prompt triggered')
+      if (APP.defPrompt) {
+        APP.defPrompt.prompt()
+        APP.defPrompt.userChoice.then((choice) => {
+          if (choice.outcome === 'accepted') {
+            console.log('user accepted the installation')
+            APP.defPrompt = null
+          } else {
+            console.log('user refused to install the app')
+          }
+        })
+      }
   },
   getOwner() {
     let id = sessionStorage.getItem(APP.OWNERKEY);
@@ -226,7 +243,6 @@ const APP = {
         console.log("registered... go to people page");
         //location.href = '/proj4-pwa-starter/people.html';
       });
-
       let btnLogin = document.getElementById("btnLogin");
       btnLogin.addEventListener("click", (ev) => {
         ev.preventDefault();
@@ -234,6 +250,14 @@ const APP = {
         APP.APILogin();
         console.log("logged in... go to people page");
       });
+      //listening for Chrome install event
+      window.addEventListener('beforeinstallprompt', (ev) => {
+      ev.preventDefault()
+      // Save the event in a global property
+      // so that it can be triggered later.
+      APP.deferredPrompt = ev;
+      console.log('deferredPrompt saved')
+    })
     }
 
     //PEOPLE PAGE
@@ -291,6 +315,14 @@ const APP = {
       document.querySelector("#modalAddGift form").addEventListener("submit", (ev) => {
         ev.preventDefault();
       });
+      //listening for Chrome install event
+      window.addEventListener('beforeinstallprompt', (ev) => {
+        ev.preventDefault()
+        // Save the event in a global property
+        // so that it can be triggered later.
+        APP.deferredPrompt = ev;
+        console.log('deferredPrompt saved')
+      })
     }
 
     //PASSWORD PAGE
