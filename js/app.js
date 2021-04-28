@@ -4,7 +4,7 @@ const APP = {
   //baseURL: "http://127.0.0.1:3030",
   //baseURL: "http://giftr-api-elb-1492435831.us-east-1.elb.amazonaws.com",
   //update the key for session storage
-  OWNERKEY: "giftr-<${Rodrigo-Saif}>-owner",
+  OWNERKEY: "giftr-<${Rodrigo}>-owner",
   owner: null,
   user: null,
   GIFTS: [],
@@ -14,7 +14,7 @@ const APP = {
   token: null,
   init() {
     //init the sw on the APP
-    APP.swInit();
+    //APP.swInit();
     console.log("App initialized");
     //run the pageLoaded function
     APP.pageLoaded();
@@ -508,9 +508,6 @@ const APP = {
   },
   addGift() {
     //user clicked the save gift button in the modal
-    let btnSave=document.querySelector('#btnSaveGift');
-    btnSave.classList.toggle('modal-close')
-
     let gift = {
       name: document.getElementById("name").value,
       price: document.getElementById("price").value,
@@ -519,25 +516,24 @@ const APP = {
         productURL: document.getElementById("storeProductURL").value
       }
     }
+
     //validating the inputs
-    checkKeys(gift)
-    function checkKeys(obj) {
-    for (let key in obj) {
-        console.log(key)
-        let subKey = obj[key]
-        if (typeof(subKey) == "object") {
-          checkKeys(subKey)
-        }
-        if(obj[key]==""){
-        console.log('the values are empty')
-        let btnSave = document.querySelector("#btnSaveGift")
-        btnSave.classList.remove('modal-close')
-        }
-        }
+    if(!gift.name || !gift.price
+      || !gift.store.name || !gift.store.productURL){
+        //if fields are empty deactivating modal
+        //console.log('validation failed')
+        document.querySelector("#btnSaveGift").classList.remove('modal-close');
+        document.querySelector("#name").classList.add("invalid");
+        document.querySelector("#price").classList.add("invalid");
+        document.querySelector("#storeName").classList.add("invalid");
+        document.querySelector("#storeProductURL").classList.add("invalid");
+      } else {
+        //console.log("saving the gift")
+        document.querySelector("#btnSaveGift").classList.toggle('modal-close');
       }
 
     //only do a fetch call once the validation has happened.
-    if (btnSave.classList.contains('modal-close')) {
+    if (btnSaveGift.classList.contains('modal-close')) {
         //(gift.name && gift.storeName).trim();
         //retrieving the current jwt token from the cookies
         let jwt = document.cookie;
