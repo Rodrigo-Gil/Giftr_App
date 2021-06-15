@@ -81,10 +81,12 @@ self.addEventListener('fetch', (ev) =>{
         .then((fetchResp) => {
           return caches.open(dynamicCache)
           .then((cache) => {
+            if (ev.request.method === "GET") {
             cache.put(ev.request, fetchResp.clone())
+            }
             return fetchResp;
-          })
-        }) 
+          });
+        })
         .catch(() => {
           return caches.match(ev.request)
             .then((resp) => {

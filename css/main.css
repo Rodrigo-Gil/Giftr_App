@@ -9,9 +9,18 @@ body {
   position: relative;
   line-height: 0;
 }
+
 .brand-logo {
-  margin-left: 2rem;
+  font-size: 2.5rem;
 }
+
+#no_gifts {
+  padding: 1rem;
+}
+.person-name {
+  padding: 1rem;
+}
+
 .card.gift {
   margin-bottom: 3rem;
   position: relative;
@@ -25,11 +34,6 @@ body {
   color: hsla(100, 50%, 20%, 0.08);
   font-size: 10rem;
   line-height: 1;
-  /* margin-right: -4rem; */
-}
-.card.person {
-  position: relative;
-  overflow-x: hidden;
 }
 .card.person::before {
   position: absolute;
@@ -40,13 +44,16 @@ body {
   color: hsla(100, 50%, 20%, 0.16);
   font-size: 10rem;
   line-height: 1;
-  /* margin-left: -4rem;*/
 }
 .person .card-content {
   padding-left: 4rem;
 }
 .container form {
-  margin-top: 4rem;
+  margin-top: 3rem;
+}
+
+#cards-div {
+  padding: 2rem;
 }
 #home_instr {
   font-weight: bold;
@@ -56,7 +63,10 @@ body {
   margin-top: 5rem;
 }
 
-
-
-/**** CSS for changing colours on the input ******/
-
+@media only screen and (min-width: 600px) {
+  .card {
+    max-width: 100%;
+    left: 50%;
+    top: 50%;
+  }
+}

@@ -1,8 +1,6 @@
 const APP = {
-  //api for testing purposes
-  baseURL: "https://giftr.mad9124.rocks",
-  //baseURL: "http://127.0.0.1:3030",
-  //baseURL: "http://giftr-api-elb-1492435831.us-east-1.elb.amazonaws.com",
+  //api url
+  baseURL: "https://main-giftr-a-yk6op15vwuou3t3s-gtw.qovery.io",
   //update the key for session storage
   OWNERKEY: "giftr-<${Rodrigo}>-owner",
   owner: null,
@@ -14,7 +12,7 @@ const APP = {
   token: null,
   init() {
     //init the sw on the APP
-    //APP.swInit();
+    APP.swInit();
     console.log("App initialized");
     //run the pageLoaded function
     APP.pageLoaded();
@@ -214,7 +212,6 @@ const APP = {
     const password = document.getElementById("password").value;
 
     const registerInfo = { firstName, lastName, email, password };
-    //console.log(registerInfo);
     const registerAPI = APP.baseURL + "/auth/users";
     const option = {
       method: "POST",
@@ -226,10 +223,10 @@ const APP = {
     };
     fetch(registerAPI, option)
       .then((res) => res.json())
-      .then((resultData) => console.log(resultData))
-      .catch((error) => APP.errorHandler(error));
-    console.log(registerAPI);
-    // after successfully register a user, should then log in the user.
+      .then((data) => {
+        data.errors ? window.alert(`${data.errors[0].description}. Try again!`):
+        window.alert(`Registration Done! ${firstName}, Welcome to Giftr!`)
+      })
   },
   addListeners() {
     console.log(APP.page, "adding listeners");
@@ -239,16 +236,12 @@ const APP = {
       btnReg.addEventListener("click", (ev) => {
         //logging in and validating the user
         APP.APIRegister();
-        //go to people page after login success
-        console.log("registered... go to people page");
-        //location.href = '/proj4-pwa-starter/people.html';
       });
       let btnLogin = document.getElementById("btnLogin");
       btnLogin.addEventListener("click", (ev) => {
         ev.preventDefault();
         //calling the API function
         APP.APILogin();
-        console.log("logged in... go to people page");
       });
       //listening for Chrome install event
       window.addEventListener('beforeinstallprompt', (ev) => {
@@ -304,10 +297,6 @@ const APP = {
       //add gift listener
       let btnSave = document.getElementById("btnSaveGift");
       btnSave.addEventListener("click", APP.addGift);
-      //adding a listener on the back to people button
-      let btnPeople = document.querySelector('#back_peep');
-      btnPeople.addEventListener('click', (ev) => {
-      window.location = ev.target.href})
 
       let section = document.querySelector(`section.gifts`);
       section.addEventListener("click", APP.delGift);
@@ -338,7 +327,7 @@ const APP = {
       btnSave.addEventListener('click', APP.changePassword)
       //adding listener for back people on the sideNav
       let back = document.querySelector('#back');
-      back.addEventListener('click', () => 
+      back.addEventListener('click', () =>
       history.back())
     }
 
@@ -356,7 +345,7 @@ const APP = {
     console.log(ev.target);
     let btn = ev.target;
     if (btn.classList.contains("del-gift")) {
-    
+
     let id = btn.closest(".card[data-id]").getAttribute("data-id");
     //activate modal for deleting gift
     let delModal = document.querySelector("#modalDelGift");
@@ -530,51 +519,52 @@ const APP = {
       } else {
         //console.log("saving the gift")
         document.querySelector("#btnSaveGift").classList.toggle('modal-close');
+        document.querySelector("#name").innerHTML = "";
+        document.querySelector("#price").innerHTML= "";
+        document.querySelector("#storeName").innerHTML = "";
+        document.querySelector("#storeProductURL").innerHTML = "";
       }
 
     //only do a fetch call once the validation has happened.
     if (btnSaveGift.classList.contains('modal-close')) {
-        //(gift.name && gift.storeName).trim();
-        //retrieving the current jwt token from the cookies
-        let jwt = document.cookie;
-
-        //fetching data to the api to add the gift
-        let opts = {
-          method: "POST",
-          headers: new Headers({
-            Authorization: "Bearer " + jwt,
-            "x-api-key": "gil00013",
-            "Content-type": "application/json",
-          }),
-          body: JSON.stringify(gift),
-        };
-
-        fetch(APP.baseURL+`/api/people/${APP.PID}/gifts`, opts)
-        .then(
-          (resp) => {
-            if (resp.ok) return resp.json();
-            throw new Error(resp.statusText);
-          },
-          (err) => {
-            //failed to fetch data
-            console.warn({ err });
-          }
-        )
-        .then(({data}) => {
-          console.log("this is the new gift: ", data);
-          //updating the gifts variable
-          APP.gifts = data;
-          //cleaning the add form modal
-          document.querySelector(".modal form").reset();
-          //updating the interface
-          APP.buildGiftList()
-          location.reload();
-        })
-        .catch((err) => {
-          //calling the global error handler
-          APP.errorHandler(err)
-        });
+      //retrieving the current jwt token from the cookies
+      let jwt = document.cookie
+      //fetching data to the api to add the gift
+      let opts = {
+        method: "POST",
+        headers: new Headers({
+          Authorization: "Bearer " + jwt,
+          "x-api-key": "gil00013",
+          "Content-type": "application/json",
+        }),
+        body: JSON.stringify(gift),
       }
+      fetch(APP.baseURL+`/api/people/${APP.PID}/gifts`, opts)
+      .then(
+        (resp) => {
+          if (resp.ok) return resp.json();
+          throw new Error(resp.statusText);
+        },
+        (err) => {
+          //failed to fetch data
+          console.warn({ err });
+        }
+      )
+      .then(({data}) => {
+        console.log("this is the new gift: ", data);
+        //updating the gifts variable
+        APP.gifts = data;
+        //cleaning the add form modal
+        document.querySelector(".modal form").reset();
+        //updating the interface
+        APP.buildGiftList()
+        location.reload();
+      })
+      .catch((err) => {
+        //calling the global error handler
+        APP.errorHandler(err)
+      });
+    }
   },
   sendMessage(msg, target) {
     //TODO:
@@ -613,8 +603,8 @@ const APP = {
       } else {
         //displaying an error message
         let noPeople = document.querySelector("#no_people")
-        noPeople.innerHTML="There is no people to display"
-      } 
+        noPeople.innerHTML="There are no people to display"
+      }
       }
   },
   buildGiftList: () => {
@@ -639,7 +629,7 @@ const APP = {
                 <i class="material-icons">lightbulb</i> ${gift.name}
               </h5>
               <h6 class="price"><i class="material-icons">paid</i> ${gift.price}</h6>
-              
+
               <h6 class="store">
                 <i class="material-icons">room</i>${gift.store.name}</h6>
               </h6>
@@ -770,7 +760,7 @@ const APP = {
       };
 
       console.log(opts.body)
-  
+
       fetch(APP.baseURL + '/auth/users/me', opts)
         .then(
           (resp) => {

@@ -29,12 +29,18 @@
     <!-- nav bar -->
     <nav>
       <div class="nav-wrapper light-blue">
-        <a href="#" data-target="slide-out" class="brand-logo left sidenav-trigger show-on-large">Giftr</a>
+        <a href="#" data-target="slide-out" class="brand-logo center sidenav-trigger">Giftr</a>
         <ul id="nav-mobile" class="right">
           <li>
             <a href="#modalAddGift" title="add a gift" id="btnAddGift" class="modal-trigger"
-              ><i class="material-icons right">playlist_add</i> Add Gift</a
-            >
+              ><i class="material-icons right">playlist_add</i></a>
+          </li>
+        </ul>
+        <ul id="nav-mobile" class="left">
+          <li>
+            <a href="#"><i id="back_peep" class="material-icons right">
+              arrow_back
+            </i></a>
           </li>
         </ul>
       </div>
@@ -43,12 +49,11 @@
       <h5 class="indigo-darken-text text-darken-2 person-name">
         Ideas for <a href="/people.html"></a>
       </h5>
-      <section class="row center gifts">
+      <section class="row gifts">
         <h5 id="no_gifts"></h5>
-        <div id="people-content" class="col s12 m6">
+        <div id="cards-div" class="col s12 m6 l6">
           <!-- gift cards go here, if no gifts-->
         </div>
-        <a id="back_peep" href="#" class= "waves-effect waves-light  indigo darken-1 btn-small">Back</a>
       </section>
     </main>
     <!-- Modal to confirm gift deletion -->
@@ -68,7 +73,7 @@
         <form class="col s12">
           <div class="row">
             <div class="input-field col s12 black-text">
-              <input id="name" type="text" class="validate black-text" class="validate" required="" 
+              <input id="name" type="text" class="validate black-text" class="validate" required=""
               aria-required="true"/>
               <label for="name" class="black-text">Idea</label>
               <span class="helper-text" data-error="please try again"></span>
@@ -95,7 +100,7 @@
               <input id="storeProductURL" type="url" class="validate black-text" class="validate" required=""
               aria-required="true"/>
               <label for="storeProductURL" class="black-text">Website</label>
-              <span class="helper-text" data-error="invalid URL"></span>
+              <span class="helper-text" data-error="please try again. Ex: http://www.walmart.ca/PS5"></span>
             </div>
           </div>
         </form>
