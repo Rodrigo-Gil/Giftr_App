@@ -1,5 +1,7 @@
-# Giftr App
+# Giftr App  [![Netlify Status](https://api.netlify.com/api/v1/badges/fbf757ff-679f-466a-a0d1-2c83ff62a6a4/deploy-status)](https://app.netlify.com/sites/giftr-dev/deploys)
+
 A Mobile Web App that allows users to create gift suggestions to their friends;
+
 
 ## Features
 Users can:
